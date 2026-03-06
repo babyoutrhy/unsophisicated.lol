@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Unsophisicated</title>
-  <!-- Font Awesome 6.7.2 (latest stable) – black‑red stylish, no light red -->
+  <title>Unsophisticated</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <style>
     /* ---------- RESET & GLOBAL ---------- */
@@ -73,7 +72,7 @@
       box-shadow: 0 0 20px rgba(139, 0, 0, 0.25);
       letter-spacing: 2px;
       position: relative;
-      margin-bottom: 2rem; /* space for the bar */
+      margin-bottom: 2rem;
     }
 
     .greeting h1 {
@@ -95,24 +94,23 @@
       text-transform: uppercase;
     }
 
-    /* ---------- PROGRESS BAR (deep red tones) ---------- */
+    /* ---------- PROGRESS BAR ---------- */
     .loading-bar-container {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
       height: 4px;
-      background: #2a0e0e;  /* dark red background */
+      background: #2a0e0e;
     }
 
     .loading-bar {
       height: 100%;
       width: 0%;
-      background: #b31b1b;  /* intense deep red – no light red */
+      background: #b31b1b;
       transition: width linear;
     }
 
-    /* fade-out class */
     .loading-screen.fade-out {
       opacity: 0;
     }
@@ -128,13 +126,10 @@
     }
 
     header {
+      text-align: center;        /* 🔹 Centers the title */
       margin-bottom: 3.5rem;
       border-bottom: 2px solid var(--red-deep);
       padding-bottom: 0.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      flex-wrap: wrap;
     }
 
     header h1 {
@@ -143,15 +138,6 @@
       color: #b31b1b;
       text-transform: uppercase;
       text-shadow: 2px 2px 0px #1a0000;
-    }
-
-    .header-line {
-      color: #7a3a3a;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      border: 1px solid #3d1e1e;
-      padding: 0.3rem 0.9rem;
-      letter-spacing: 3px;
     }
 
     /* profile cards */
@@ -169,16 +155,40 @@
       box-shadow: 10px 10px 0 rgba(130, 0, 0, 0.25);
     }
 
+    .profile-header {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.6rem;
+    }
+
     .profile-name {
       font-size: 2rem;
       font-weight: 450;
       color: #c22a2a;
-      margin-bottom: 1.6rem;
       border-left: 6px solid #6e0000;
       padding-left: 1rem;
       text-transform: uppercase;
       letter-spacing: 2px;
       word-break: break-word;
+    }
+
+    .profile-clock {
+      font-size: 0.9rem;
+      color: #a55a5a;
+      border: 1px solid #4f2d2d;
+      padding: 0.2rem 0.8rem;
+      background: #0f0505;
+      font-family: 'SF Mono', monospace;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .profile-clock i {
+      color: #ac2c2c;
     }
 
     .social-links {
@@ -231,6 +241,11 @@
     }
 
     @media (max-width: 600px) {
+      .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
       .social-item {
         flex-direction: column;
         align-items: flex-start;
@@ -245,13 +260,17 @@
       background-size: 30px 30px;
     }
 
+    /* footer area – now without view counter */
     .ghost-footer {
       margin-top: 3rem;
-      text-align: right;
+      padding-top: 1.5rem;
+      border-top: 1px solid #2e1a1a;
+      text-align: right;          /* keeps the "Maintain" text on the right */
+    }
+
+    .ghost-footer span {
       color: #4f2d2d;
       font-size: 0.8rem;
-      border-top: 1px solid #2e1a1a;
-      padding-top: 1.5rem;
       text-transform: uppercase;
       letter-spacing: 2px;
     }
@@ -264,52 +283,52 @@
 </head>
 <body>
 
-  <!-- LOADING SCREEN WITH PROGRESS BAR (blocks clicks) -->
   <div class="loading-screen" id="loadingScreen">
     <div class="greeting">
-      <h1>UNSOPHISICATED</h1>
-      <p>✦ GREETINGS ✦</p>
-      <!-- progress bar attached to greeting bottom -->
+      <h1>Unsophisticated</h1>
+      <p>Loading...</p>
       <div class="loading-bar-container">
         <div class="loading-bar" id="loadingBar"></div>
       </div>
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
   <div class="content">
     <header>
-      <h1>UNSOPHISICATED</h1>
-      <div class="header-line">BLACK · RED</div>
+      <h1>Unsophisticated</h1>
     </header>
 
     <main>
-      <!-- PROFILE 1 : неискушенный666 -->
       <div class="profile">
-        <div class="profile-name">неискушенный666</div>
-        <div class="social-links">
-          <div class="social-item">
-            <i class="fab fa-instagram"></i>
-            <a href="https://instagram.com/yungrhy" class="social-button" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <div class="profile-header">
+          <div class="profile-name">неискушенный666</div>
+          <div class="profile-clock" id="clock-utc1">
+            <i class="fas fa-clock"></i> <span>--:--:--</span> UTC+1
           </div>
+        </div>
+        <div class="social-links">
           <div class="social-item">
             <i class="fab fa-telegram"></i>
             <a href="https://t.me/purrcating" class="social-button" target="_blank" rel="noopener noreferrer">Telegram</a>
           </div>
           <div class="social-item">
             <i class="fab fa-x-twitter"></i>
-            <a href="https://x.com/babyoutrhy" class="social-button" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+            <a href="https://x.com/xxcvcxvcxvcxvcx" class="social-button" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
           </div>
           <div class="social-item">
-            <i class="fab fa-github"></i>
-            <a href="https://github.com/babyoutrhy" class="social-button" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <i class="fab fa-soundcloud"></i>
+            <a href="https://soundcloud.com/awawawawawwawa" class="social-button" target="_blank" rel="noopener noreferrer">SoundCloud</a>
           </div>
         </div>
       </div>
 
-      <!-- PROFILE 2 : коварная666 -->
       <div class="profile">
-        <div class="profile-name">коварная666</div>
+        <div class="profile-header">
+          <div class="profile-name">коварная666</div>
+          <div class="profile-clock" id="clock-utc0">
+            <i class="fas fa-clock"></i> <span>--:--:--</span> UTC±0
+          </div>
+        </div>
         <div class="social-links">
           <div class="social-item">
             <i class="fab fa-telegram"></i>
@@ -323,7 +342,7 @@
       </div>
       
       <div class="ghost-footer">
-        <span>⎯ UNSOPHISICATED // MAINTAIN ⎯</span>
+        <span>⎯ Unsophisticated // Maintain ⎯</span>
       </div>
     </main>
   </div>
@@ -331,35 +350,68 @@
   <script>
     (function() {
       'use strict';
+
+      // ---------- LIVE CLOCKS ----------
+      function updateClocks() {
+        const now = new Date();
+
+        // UTC+1 (Etc/GMT-1 is UTC+1)
+        const utc1El = document.querySelector('#clock-utc1 span');
+        if (utc1El) {
+          const timeUTC1 = now.toLocaleTimeString('en-GB', {
+            timeZone: 'Etc/GMT-1',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+          });
+          utc1El.textContent = timeUTC1;
+        }
+
+        // UTC+0 (use 'UTC' or 'Etc/GMT')
+        const utc0El = document.querySelector('#clock-utc0 span');
+        if (utc0El) {
+          const timeUTC0 = now.toLocaleTimeString('en-GB', {
+            timeZone: 'UTC',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+          });
+          utc0El.textContent = timeUTC0;
+        }
+      }
+
+      updateClocks();
+      const intervalId = setInterval(updateClocks, 1000);
+
+      // ---------- LOADING SCREEN ----------
       window.addEventListener('load', function() {
         const loadingEl = document.getElementById('loadingScreen');
         const barEl = document.getElementById('loadingBar');
         if (!loadingEl || !barEl) return;
 
-        // random delay between 2500ms and 7000ms
         const minDelay = 2500;
         const maxDelay = 4000;
         const randomDelay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
 
-        // start progress bar animation: width 0% → 100% over randomDelay ms
         barEl.style.transition = `width ${randomDelay}ms linear`;
-        // trigger reflow to ensure transition starts
-        barEl.offsetHeight; 
+        barEl.offsetHeight; // trigger reflow
         barEl.style.width = '100%';
 
-        // after the exact fill duration, fade out the loading screen
         setTimeout(function() {
           loadingEl.classList.add('fade-out');
-          
-          // after fade transition (0.6s), remove from DOM to fully enable interaction
           setTimeout(function() {
             loadingEl.style.display = 'none';
           }, 600);
         }, randomDelay);
       });
+
+      window.addEventListener('beforeunload', function() {
+        clearInterval(intervalId);
+      });
     })();
   </script>
 
-  <!-- only russian text: profile names "неискушенный666" + "коварная666" -->
 </body>
 </html>

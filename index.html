@@ -1,615 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vvvvvvvvvvv</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: default;
-        }
-        
-        body {
-            background-color: #000000;
-            color: #ffffff;
-            font-family: monospace;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            position: fixed;
-        }
-        
-        .floating-text {
-            position: absolute;
-            font-size: 16px;
-            color: #ffffff;
-            text-shadow: 0 0 5px currentColor;
-            pointer-events: none;
-            white-space: nowrap;
-            animation: floatAnimation linear infinite;
-            z-index: 1;
-        }
-        
-        @keyframes floatAnimation {
-            0% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            100% {
-                transform: translate(var(--tx), var(--ty)) rotate(var(--tr));
-            }
-        }
-        
-        .popup {
-            position: fixed;
-            background-color: #000000;
-            border: 1px solid #ffffff;
-            padding: 10px;
-            z-index: 1000;
-            max-width: 300px;
-            animation: popupFade 4s forwards;
-            box-shadow: 0 0 10px #ffffff;
-        }
-        
-        @keyframes popupFade {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-        
-        .static {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.03"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3"/></filter><rect width="100" height="100" filter="url(%23noise)" fill="white"/></svg>');
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.05;
-        }
-        
-        .cursor {
-            position: fixed;
-            width: 2px;
-            height: 20px;
-            background-color: #ffffff;
-            z-index: 10000;
-            pointer-events: none;
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        .corner-text {
-            position: fixed;
-            font-size: 10px;
-            color: #555555;
-            z-index: 2;
-        }
-        
-        .top-left {
-            top: 5px;
-            left: 5px;
-        }
-        
-        .top-right {
-            top: 5px;
-            right: 5px;
-        }
-        
-        .bottom-left {
-            bottom: 5px;
-            left: 5px;
-        }
-        
-        .bottom-right {
-            bottom: 5px;
-            right: 5px;
-        }
-        
-        .glitch {
-            animation: glitch 0.3s infinite;
-        }
-        
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
-        
-        .meaningless {
-            opacity: 0.6;
-            font-style: italic;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Unsophisicated</title>
+  <!-- Font Awesome 6.7.2 (latest stable) – black‑red stylish, no light red -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
+      min-height: 100vh;
+      background: #000000;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #ededed;
+      line-height: 1.5;
+    }
+
+    /* custom scroll – black & red */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #8b0000;
+      border-radius: 0px;
+      border: 1px solid #1a0000;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a50000;
+    }
+
+    /* ---------- BLACK‑RED VARIABLES ---------- */
+    :root {
+      --black: #000000;
+      --red-deep: #8b1a1a;
+      --red-strong: #a51e1e;
+      --card-bg: #080808;
+    }
+
+    /* ---------- LOADING SCREEN – BLOCKS INTERACTION ---------- */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      opacity: 1;
+      pointer-events: auto; /* blocks clicks on content behind */
+    }
+
+    .greeting {
+      text-align: center;
+      border: 2px solid var(--red-deep);
+      padding: 2.4rem 3.2rem;
+      background: rgba(0,0,0,0.85);
+      box-shadow: 0 0 20px rgba(139, 0, 0, 0.25);
+      letter-spacing: 2px;
+      position: relative;
+      margin-bottom: 2rem; /* space for the bar */
+    }
+
+    .greeting h1 {
+      font-size: 2.8rem;
+      font-weight: 500;
+      color: var(--red-deep);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid #3a1a1a;
+      padding-bottom: 0.5rem;
+      text-shadow: 0 0 5px #4d0000;
+    }
+
+    .greeting p {
+      font-size: 1.2rem;
+      color: #bbb;
+      font-weight: 300;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+    }
+
+    /* ---------- PROGRESS BAR (deep red tones) ---------- */
+    .loading-bar-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: #2a0e0e;  /* dark red background */
+    }
+
+    .loading-bar {
+      height: 100%;
+      width: 0%;
+      background: #b31b1b;  /* intense deep red – no light red */
+      transition: width linear;
+    }
+
+    /* fade-out class */
+    .loading-screen.fade-out {
+      opacity: 0;
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
+    .content {
+      display: block;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      margin-bottom: 3.5rem;
+      border-bottom: 2px solid var(--red-deep);
+      padding-bottom: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 2.6rem;
+      font-weight: 500;
+      color: #b31b1b;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0px #1a0000;
+    }
+
+    .header-line {
+      color: #7a3a3a;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      border: 1px solid #3d1e1e;
+      padding: 0.3rem 0.9rem;
+      letter-spacing: 3px;
+    }
+
+    /* profile cards */
+    .profile {
+      background: var(--card-bg);
+      border: 1.2px solid #3c1c1c;
+      padding: 2.2rem 2rem;
+      margin-bottom: 2.8rem;
+      box-shadow: 8px 8px 0 rgba(100, 0, 0, 0.2);
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    .profile:hover {
+      border-color: #942525;
+      box-shadow: 10px 10px 0 rgba(130, 0, 0, 0.25);
+    }
+
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 450;
+      color: #c22a2a;
+      margin-bottom: 1.6rem;
+      border-left: 6px solid #6e0000;
+      padding-left: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      word-break: break-word;
+    }
+
+    .social-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .social-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .social-item i {
+      font-size: 1.9rem;
+      width: 2.4rem;
+      text-align: center;
+      color: #ac2c2c;
+      transition: transform 0.15s, color 0.2s;
+    }
+
+    .social-item:hover i {
+      color: #dc3a3a;
+      transform: scale(1.05);
+    }
+
+    .social-button {
+      background: transparent;
+      border: 1.8px solid #a52a2a;
+      color: #d6a0a0;
+      padding: 0.65rem 1.3rem;
+      font-size: 1rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      text-decoration: none;
+      word-break: break-word;
+      flex: 1;
+      min-width: 200px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      border-radius: 0px;
+      font-weight: 400;
+      text-align: left;
+    }
+
+    .social-button:hover {
+      background: #941c1c;
+      border-color: #ad3b3b;
+      color: #000000;
+    }
+
+    @media (max-width: 600px) {
+      .social-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .social-button {
+        width: 100%;
+      }
+    }
+
+    body {
+      background-image: radial-gradient(rgba(120, 0, 0, 0.08) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    .ghost-footer {
+      margin-top: 3rem;
+      text-align: right;
+      color: #4f2d2d;
+      font-size: 0.8rem;
+      border-top: 1px solid #2e1a1a;
+      padding-top: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    *:focus-visible {
+      outline: 2px solid #9e2626;
+      outline-offset: 2px;
+    }
+  </style>
 </head>
 <body>
-    <div class="static"></div>
-    
-    <div class="corner-text top-left">00001010</div>
-    <div class="corner-text top-right">vvvvvvvvvvv</div>
-    <div class="corner-text bottom-left">via padre placido riccardi 1</div>
-    <div class="corner-text bottom-right">[no signal]</div>
-    
-    <div class="cursor" id="cursor"></div>
 
-    <script>
-        // Phrases in four languages (all lowercase, third person singular/plural)
-        const phrases = {
-            japanese: [
-                "窓がひとりでに開くことがある",
-                "時計の針がずれることが確認されている",
-                "階段が一段増えていることに気づく",
-                "鏡に映るものが時々遅れて動く",
-                "誰もいないのにドアが閉まる音がする",
-                "壁のひび割れが毎日少しずつ広がる",
-                "知らない番号から電話がかかってくる",
-                "冷蔵庫の中身が知らないうちに変わる",
-                "隣の部屋から水の流れる音が聞こえる",
-                "埃が不自然な模様を作って積もる",
-                "地面がところどころ柔らかすぎる",
-                "季節外れの虫が死んでいるのを見つける",
-                "月の位置が昨日と違うことに気づく",
-                "水道から透明な水しか出ない",
-                "本のページ数が知らないうちに増える",
-                "自分の影が時々遅れてついてくる",
-                "道に迷うと必ず同じ標識が見える",
-                "懐かしい匂いが突然漂ってくる",
-                "耳鳴りの中に声が混じっているようだ",
-                "植物が窓ではなく部屋の角に向かって育つ",
-                // Meaningless phrases
-                "七つの三角形が空を飛んでいる",
-                "紫色の沈黙が床に積もる",
-                "透明な石が時間を飲み込む",
-                "乾いた音が壁を這う",
-                "数字が色を失う瞬間",
-                "垂直な水平線が見える場所",
-                "影が光を投げる午後",
-                "呼吸する幾何学模様",
-                "凍ったエコーが反響する",
-                "無色の歌が流れる部屋"
-            ],
-            english: [
-                "the wallpaper pattern repeats every eleven inches",
-                "all the clocks stop at different times",
-                "the ceiling becomes slightly lower each day",
-                "the shadow does not match the movements",
-                "the rain falls upward on tuesdays",
-                "a key is found that fits no lock",
-                "the reflection sometimes winks back",
-                "the plants grow toward the corner, not the window",
-                "the smell of ozone precedes electrical storms",
-                "the left shoe is always tighter than the right",
-                "the newspaper dates are consistently incorrect",
-                "footsteps are heard in the empty apartment above",
-                "the coffee cools too quickly every time",
-                "the streetlights hum in b-flat minor",
-                "the handwriting changes when no one is watching",
-                "the television turns on by itself at 3:17 am",
-                "the stairs creak in deliberate patterns",
-                "the watch gains exactly forty-seven seconds each day",
-                "the mail arrives damp regardless of weather conditions",
-                "feathers are found in places birds cannot reach",
-                // Meaningless phrases
-                "triangles forget their corners on wednesdays",
-                "the silence between ticks grows heavier",
-                "horizontal vertigos plague the standing",
-                "the echo learns to speak backwards",
-                "shadows cast light in the empty room",
-                "numbers lose their meaning after midnight",
-                "the color blue tastes of static",
-                "geometry breathes in squared circles",
-                "frozen sounds melt in deaf ears",
-                "the wallpaper dreams of becoming sky"
-            ],
-            chinese: [
-                "墙上的裂缝每天增长一毫米",
-                "水龙头滴水的节奏像某种密码",
-                "镜子里的影像有时会慢半拍",
-                "烤面包的味道总在星期四出现",
-                "书页间夹着陌生的头发",
-                "电梯在四楼总会多停三秒钟",
-                "窗外的鸟每天同一时间撞击玻璃",
-                "脚步声听起来像有两个人",
-                "手表在午夜会自动快五分钟",
-                "梦中的地方在现实中存在",
-                "镜子里的房间多了一扇门",
-                "雨滴在窗户上拼出奇怪的字母",
-                "衣角有时会被轻轻拉动",
-                "熟悉的街道突然多出一条小巷",
-                "影子比身体长十厘米",
-                "手机会在无人时自动拍照",
-                "隔壁的钢琴声总在半夜响起",
-                "植物都朝北而不是南方生长",
-                "杯子里的水每晚减少一些",
-                "电视关闭时会闪过陌生的面孔",
-                // Meaningless phrases
-                "正方形在圆形中溶解",
-                "沉默的重量压弯光线",
-                "数字三嫉妒数字七",
-                "透明的墙吸收所有声音",
-                "垂直的时间水平流淌",
-                "干燥的水滴在窗台结晶",
-                "回声学会忘记起源",
-                "几何形状在黑暗中呼吸",
-                "冻结的声音解冻成颜色",
-                "未书写的文字充满房间"
-            ],
-            hebrew: [
-                "השעון מאחר בדיוק שבע דקות",
-                "הצל נע מהר יותר מהגוף",
-                "בחלון הראי יש דלת שלא קיימת",
-                "המים בברז תמיד חמים מדי",
-                "הציפורים שותקות כשמישהו מסתכל",
-                "הדלת נסגרת לבד בכל פעם",
-                "בחלומות יש חדר ללא חלונות",
-                "קול נשמע במדרגות אך אין אדם",
-                "התמונה בקיר זזה כל לילה",
-                "ריח של לחם מגיע מהמרתף",
-                "הטלוויזיה מדליקה עצמה בשתיים בלילה",
-                "המראה משקפת חדר שונה",
-                "השטיח לא נוגע ברצפה במרכז",
-                "הצמח גדל לכיוון הלא נכון",
-                "הטלפון מצלצל פעם אחת בלבד",
-                "המגירות נפתחות בעצמן לפנות בוקר",
-                "חלקיקים באוויר נחים בצפיפות שונה",
-                "הקול מהדהד יותר מדי בחדר הזה",
-                "האור מהכוכבים מגיע מאוחר מדי",
-                "הזמן עובר מהר יותר בחדר הזה",
-                // Meaningless phrases
-                "משולשים שוכחים את הפינות שלהם",
-                "שתיקה סגולה מצטברת על הרצפה",
-                "אבנים שקולות בולעות זמן",
-                "צלילים יבשים זוחלים על הקירות",
-                "קווים אנכיים הופכים לאופקיים",
-                "הדים קפואים מהדהדים בחלל ריק",
-                "מספרים מאבדים צבע בחצות",
-                "גיאומטריה נושמת בעיגולים מרובעים",
-                "קירות שקופים סופגים צלילים",
-                "צבעים ללא שם ממלאים את החדר"
-            ]
-        };
-        
-        // Array of colors (all white or very close to white for minimalist look)
-        const colors = [
-            '#ffffff', '#f0f0f0', '#e8e8e8', '#f8f8f8', '#d8d8d8', '#c8c8c8'
-        ];
-        
-        // Initialize floating texts
-        function createFloatingTexts(count) {
-            const allPhrases = [
-                ...phrases.japanese,
-                ...phrases.english,
-                ...phrases.chinese,
-                ...phrases.hebrew
-            ];
-            
-            for (let i = 0; i < count; i++) {
-                const textEl = document.createElement('div');
-                textEl.className = 'floating-text';
-                
-                // Random phrase
-                const phrase = allPhrases[Math.floor(Math.random() * allPhrases.length)];
-                textEl.textContent = phrase.toLowerCase();
-                
-                // Random position
-                const x = Math.random() * window.innerWidth;
-                const y = Math.random() * window.innerHeight;
-                textEl.style.left = `${x}px`;
-                textEl.style.top = `${y}px`;
-                
-                // Random color
-                textEl.style.color = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Random animation parameters
-                const tx = (Math.random() * 200 - 100) + 'px';
-                const ty = (Math.random() * 200 - 100) + 'px';
-                const tr = (Math.random() * 360) + 'deg';
-                const duration = 20 + Math.random() * 40 + 's';
-                
-                textEl.style.setProperty('--tx', tx);
-                textEl.style.setProperty('--ty', ty);
-                textEl.style.setProperty('--tr', tr);
-                textEl.style.animationDuration = duration;
-                
-                // Random font size
-                textEl.style.fontSize = (12 + Math.random() * 8) + 'px';
-                
-                // Random opacity
-                textEl.style.opacity = 0.6 + Math.random() * 0.4;
-                
-                // Add meaningless class to some phrases
-                if (phrase.includes("triangles") || phrase.includes("正方形") || 
-                    phrase.includes("משולשים") || phrase.includes("三角形") ||
-                    phrase.includes("silence") || phrase.includes("沉默") || 
-                    phrase.includes("שתיקה") || phrase.includes("沈黙") ||
-                    phrase.includes("echo") || phrase.includes("回声") || 
-                    phrase.includes("הד") || phrase.includes("エコー")) {
-                    textEl.classList.add('meaningless');
-                }
-                
-                document.body.appendChild(textEl);
-                
-                // Occasionally add glitch effect
-                if (Math.random() < 0.1) {
-                    textEl.classList.add('glitch');
-                }
-            }
-        }
-        
-        // Create popup with random phrase
-        function createPopup() {
-            const allPhrases = [
-                ...phrases.japanese,
-                ...phrases.english,
-                ...phrases.chinese,
-                ...phrases.hebrew
-            ];
-            
-            const popup = document.createElement('div');
-            popup.className = 'popup';
-            
-            // Random phrase
-            const phrase = allPhrases[Math.floor(Math.random() * allPhrases.length)];
-            popup.textContent = phrase.toLowerCase();
-            
-            // Random position
-            const x = Math.random() * (window.innerWidth - 300);
-            const y = Math.random() * (window.innerHeight - 100);
-            popup.style.left = `${x}px`;
-            popup.style.top = `${y}px`;
-            
-            // Random color
-            popup.style.color = colors[Math.floor(Math.random() * colors.length)];
-            popup.style.borderColor = popup.style.color;
-            popup.style.boxShadow = `0 0 10px ${popup.style.color}`;
-            
-            document.body.appendChild(popup);
-            
-            // Remove after animation
-            setTimeout(() => {
-                if (popup.parentNode) {
-                    popup.parentNode.removeChild(popup);
-                }
-            }, 4000);
-        }
-        
-        // Update cursor position
-        document.addEventListener('mousemove', (e) => {
-            const cursor = document.getElementById('cursor');
-            cursor.style.left = `${e.clientX}px`;
-            cursor.style.top = `${e.clientY}px`;
-        });
-        
-        // Click to create temporary glitch effect
-        document.addEventListener('click', () => {
-            document.body.classList.add('glitch');
-            setTimeout(() => {
-                document.body.classList.remove('glitch');
-            }, 300);
-            
-            // Occasionally create popup on click
-            if (Math.random() < 0.3) {
-                createPopup();
-            }
-            
-            // Occasionally add more floating text on click
-            if (Math.random() < 0.2) {
-                createFloatingTexts(1);
-            }
-        });
-        
-        // Initialize on load
-        window.addEventListener('load', () => {
-            // Create initial floating texts
-            createFloatingTexts(50);
-            
-            // Create popups at random intervals
-            setInterval(() => {
-                if (Math.random() < 0.4) { // 40% chance every interval
-                    createPopup();
-                }
-            }, 5000);
-            
-            // Add new floating texts occasionally
-            setInterval(() => {
-                if (Math.random() < 0.3) {
-                    createFloatingTexts(2);
-                }
-            }, 8000);
-            
-            // Occasionally remove some texts to keep performance
-            setInterval(() => {
-                const texts = document.querySelectorAll('.floating-text');
-                if (texts.length > 60) {
-                    for (let i = 0; i < 5; i++) {
-                        if (texts[i]) {
-                            texts[i].parentNode.removeChild(texts[i]);
-                        }
-                    }
-                }
-            }, 15000);
-            
-            // Randomly change text positions occasionally
-            setInterval(() => {
-                const texts = document.querySelectorAll('.floating-text');
-                texts.forEach(text => {
-                    if (Math.random() < 0.05) {
-                        const x = Math.random() * window.innerWidth;
-                        const y = Math.random() * window.innerHeight;
-                        text.style.left = `${x}px`;
-                        text.style.top = `${y}px`;
-                        
-                        // New animation
-                        const tx = (Math.random() * 200 - 100) + 'px';
-                        const ty = (Math.random() * 200 - 100) + 'px';
-                        const tr = (Math.random() * 360) + 'deg';
-                        text.style.setProperty('--tx', tx);
-                        text.style.setProperty('--ty', ty);
-                        text.style.setProperty('--tr', tr);
-                        
-                        // Occasionally change phrase
-                        if (Math.random() < 0.1) {
-                            const allPhrases = [
-                                ...phrases.japanese,
-                                ...phrases.english,
-                                ...phrases.chinese,
-                                ...phrases.hebrew
-                            ];
-                            text.textContent = allPhrases[Math.floor(Math.random() * allPhrases.length)].toLowerCase();
-                            
-                            // Update meaningless class
-                            text.classList.remove('meaningless');
-                            if (text.textContent.includes("triangle") || text.textContent.includes("square") || 
-                                text.textContent.includes("silence") || text.textContent.includes("echo") ||
-                                text.textContent.includes("几何") || text.textContent.includes("数字") ||
-                                text.textContent.includes("גיאומטריה") || text.textContent.includes("מספר")) {
-                                text.classList.add('meaningless');
-                            }
-                        }
-                    }
-                });
-            }, 8000);
-            
-            // Randomly change text opacity
-            setInterval(() => {
-                const texts = document.querySelectorAll('.floating-text');
-                texts.forEach(text => {
-                    if (Math.random() < 0.1) {
-                        text.style.opacity = 0.3 + Math.random() * 0.7;
-                    }
-                });
-            }, 3000);
-        });
-        
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            // Remove texts that are now outside viewport
-            const texts = document.querySelectorAll('.floating-text');
-            texts.forEach(text => {
-                const rect = text.getBoundingClientRect();
-                if (rect.right < 0 || rect.bottom < 0 || 
-                    rect.left > window.innerWidth || rect.top > window.innerHeight) {
-                    // Reposition text
-                    const x = Math.random() * window.innerWidth;
-                    const y = Math.random() * window.innerHeight;
-                    text.style.left = `${x}px`;
-                    text.style.top = `${y}px`;
-                }
-            });
-        });
-        
-        // Add keyboard interaction
-        document.addEventListener('keydown', (e) => {
-            // Space bar creates popup
-            if (e.code === 'Space') {
-                createPopup();
-                e.preventDefault();
-            }
-            
-            // 'R' key adds more floating texts
-            if (e.code === 'KeyR') {
-                createFloatingTexts(10);
-                e.preventDefault();
-            }
-            
-            // 'C' key changes all text colors
-            if (e.code === 'KeyC') {
-                const texts = document.querySelectorAll('.floating-text, .popup');
-                texts.forEach(text => {
-                    text.style.color = colors[Math.floor(Math.random() * colors.length)];
-                    if (text.classList.contains('popup')) {
-                        text.style.borderColor = text.style.color;
-                        text.style.boxShadow = `0 0 10px ${text.style.color}`;
-                    }
-                });
-                e.preventDefault();
-            }
-            
-            // 'M' key adds meaningless phrases only
-            if (e.code === 'KeyM') {
-                // Create texts with only meaningless phrases
-                const meaninglessPhrases = [
-                    "triangles forget their corners",
-                    "the silence between ticks grows heavier",
-                    "horizontal vertigos plague the standing",
-                    "the echo learns to speak backwards",
-                    "shadows cast light in the empty room",
-                    "numbers lose their meaning after midnight",
-                    "the color blue tastes of static",
-                    "geometry breathes in squared circles",
-                    "frozen sounds melt in deaf ears",
-                    "正方形在圆形中溶解",
-                    "沉默的重量压弯光线",
-                    "数字三嫉妒数字七",
-                    "透明的墙吸收所有声音",
-                    "垂直的时间水平流淌",
-                    "干燥的水滴在窗台结晶",
-                    "回声学会忘记起源",
-                    "几何形状在黑暗中呼吸",
-                    "冻结的声音解冻成颜色",
-                    "未书写的文字充满房间",
-                    "七つの三角形が空を飛んでいる",
-                    "紫色の沈黙が床に積もる",
-                    "透明な石が時間を飲み込む",
-                    "乾いた音が壁を這う",
-                    "数字が色を失う瞬間",
-                    "垂直な水平線が見える場所",
-                    "影が光を投げる午後",
-                    "呼吸する幾何学模様",
-                    "凍ったエコーが反響する",
-                    "無色の歌が流れる部屋",
-                    "משולשים שוכחים את הפינות שלהם",
-                    "שתיקה סגולה מצטברת על הרצפה",
-                    "אבנים שקולות בולעות זמן",
-                    "צלילים יבשים זוחלים על הקירות",
-                    "קווים אנכיים הופכים לאופקיים",
-                    "הדים קפואים מהדהדים בחלל ריק",
-                    "מספרים מאבדים צבע בחצות",
-                    "גיאומטריה נושמת בעיגולים מרובעים",
-                    "קירות שקופים סופגים צלילים",
-                    "צבעים ללא שם ממלאים את החדר"
-                ];
-                
-                for (let i = 0; i < 5; i++) {
-                    const textEl = document.createElement('div');
-                    textEl.className = 'floating-text meaningless';
-                    textEl.textContent = meaninglessPhrases[Math.floor(Math.random() * meaninglessPhrases.length)].toLowerCase();
-                    
-                    const x = Math.random() * window.innerWidth;
-                    const y = Math.random() * window.innerHeight;
-                    textEl.style.left = `${x}px`;
-                    textEl.style.top = `${y}px`;
-                    
-                    textEl.style.color = colors[Math.floor(Math.random() * colors.length)];
-                    
-                    const tx = (Math.random() * 200 - 100) + 'px';
-                    const ty = (Math.random() * 200 - 100) + 'px';
-                    const tr = (Math.random() * 360) + 'deg';
-                    const duration = 20 + Math.random() * 40 + 's';
-                    
-                    textEl.style.setProperty('--tx', tx);
-                    textEl.style.setProperty('--ty', ty);
-                    textEl.style.setProperty('--tr', tr);
-                    textEl.style.animationDuration = duration;
-                    textEl.style.fontSize = (12 + Math.random() * 8) + 'px';
-                    textEl.style.opacity = 0.4 + Math.random() * 0.3;
-                    
-                    document.body.appendChild(textEl);
-                }
-                e.preventDefault();
-            }
-        });
-    </script>
+  <!-- LOADING SCREEN WITH PROGRESS BAR (blocks clicks) -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="greeting">
+      <h1>UNSOPHISICATED</h1>
+      <p>✦ GREETINGS ✦</p>
+      <!-- progress bar attached to greeting bottom -->
+      <div class="loading-bar-container">
+        <div class="loading-bar" id="loadingBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+    <header>
+      <h1>UNSOPHISICATED</h1>
+      <div class="header-line">BLACK · RED</div>
+    </header>
+
+    <main>
+      <!-- PROFILE 1 : неискушенный666 -->
+      <div class="profile">
+        <div class="profile-name">неискушенный666</div>
+        <div class="social-links">
+          <div class="social-item">
+            <i class="fab fa-instagram"></i>
+            <a href="https://instagram.com/yungrhy" class="social-button" target="_blank" rel="noopener noreferrer">Instagram</a>
+          </div>
+          <div class="social-item">
+            <i class="fab fa-telegram"></i>
+            <a href="https://t.me/purrcating" class="social-button" target="_blank" rel="noopener noreferrer">Telegram</a>
+          </div>
+          <div class="social-item">
+            <i class="fab fa-x-twitter"></i>
+            <a href="https://x.com/babyoutrhy" class="social-button" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+          </div>
+          <div class="social-item">
+            <i class="fab fa-github"></i>
+            <a href="https://github.com/babyoutrhy" class="social-button" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROFILE 2 : коварная666 -->
+      <div class="profile">
+        <div class="profile-name">коварная666</div>
+        <div class="social-links">
+          <div class="social-item">
+            <i class="fab fa-telegram"></i>
+            <a href="https://t.me/s_bunnies" class="social-button" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+          </div>
+          <div class="social-item">
+            <i class="fab fa-tiktok"></i>
+            <a href="https://www.tiktok.com/@gk_3789" class="social-button" target="_blank" rel="noopener noreferrer">TikTok</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="ghost-footer">
+        <span>⎯ UNSOPHISICATED // MAINTAIN ⎯</span>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        const loadingEl = document.getElementById('loadingScreen');
+        const barEl = document.getElementById('loadingBar');
+        if (!loadingEl || !barEl) return;
+
+        // random delay between 2500ms and 7000ms
+        const minDelay = 2500;
+        const maxDelay = 7000;
+        const randomDelay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+
+        // start progress bar animation: width 0% → 100% over randomDelay ms
+        barEl.style.transition = `width ${randomDelay}ms linear`;
+        // trigger reflow to ensure transition starts
+        barEl.offsetHeight; 
+        barEl.style.width = '100%';
+
+        // after the exact fill duration, fade out the loading screen
+        setTimeout(function() {
+          loadingEl.classList.add('fade-out');
+          
+          // after fade transition (0.6s), remove from DOM to fully enable interaction
+          setTimeout(function() {
+            loadingEl.style.display = 'none';
+          }, 600);
+        }, randomDelay);
+      });
+    })();
+  </script>
+
+  <!-- only russian text: profile names "неискушенный666" + "коварная666" -->
 </body>
 </html>
